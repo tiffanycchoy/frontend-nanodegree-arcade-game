@@ -18,6 +18,8 @@ var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
+
+     getContext() returns an object that provides methods and properties for drawing on the canvas
      */
     var doc = global.document,
         win = global.window,
@@ -80,7 +82,12 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkForHittingGem();
+        checkForCollisions();
+        enemyLoopAround();
+        checkWinning();
+
+
     }
 
     /* This is called by the update function and loops through all of the
@@ -93,9 +100,34 @@ var Engine = (function(global) {
     function updateEntities(dt) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
+            //enemy.checkCollisions(player);
         });
         player.update();
     }
+
+
+    function checkForCollisions(){
+        allEnemies.forEach(function(enemy){
+            enemy.checkCollisions(player);
+        });
+    }
+
+    function enemyLoopAround(){
+        allEnemies.forEach(function(enemy){
+            enemy.loopAround(player);
+        })
+    }
+
+    function checkForHittingGem(){
+        allGems.forEach(function(gem){
+            player.hitGem(gem);
+        });
+    }
+
+    function checkWinning(){
+        player.checkIfCrossedSuccessfully(100);
+    }
+
 
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
@@ -152,6 +184,10 @@ var Engine = (function(global) {
         });
 
         player.render();
+
+        allGems.forEach(function(gem){
+            gem.render();
+        });
     }
 
     /* This function does nothing but it could have been a good place to
@@ -171,7 +207,13 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Gem Blue.png',
+        'images/Gem Green.png',
+        'images/Gem Orange.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png'
     ]);
     Resources.onReady(init);
 

@@ -5,9 +5,9 @@
  * to load the same image multiple times.
  */
 (function() {
-    var resourceCache = {};
-    var loading = [];
-    var readyCallbacks = [];
+    var resourceCache = {}; // caches URLs.  this object previously loaded URLs contains propertys
+    var loading = []; // not used??
+    var readyCallbacks = []; //callback stack that is called when all requested images are properly loaded
 
     /* This is the publicly accessible image loading function. It accepts
      * an array of strings pointing to image files or a string for a single
@@ -45,7 +45,7 @@
             /* This URL has not been previously loaded and is not present
              * within our cache; we'll need to load this image.
              */
-            var img = new Image();
+            var img = new Image(); //?????? Where is Image defined?
             img.onload = function() {
                 /* Once our image has properly loaded, add it to our cache
                  * so that we can simply return this image if the developer
